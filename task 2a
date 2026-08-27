@@ -1,0 +1,125 @@
+# Hill Climbing Algorithm for 8-Puzzle
+
+# Goal state
+goal = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 0]
+]
+
+
+# Calculate objective value
+# Objective value = number of tiles in correct position
+def objective(state):
+    count = 0
+
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] != 0 and state[i][j] == goal[i][j]:
+                count += 1
+
+    return count
+
+
+# Find position of blank tile
+def find_blank(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+
+
+# Generate neighbouring states
+def get_neighbours(state):
+    neighbours = []
+
+    row, col = find_blank(state)
+
+    # Up, Down, Left, Right
+    moves = [
+        (-1, 0),
+        (1, 0),
+        (0, -1),
+        (0, 1)
+    ]
+
+    for dr, dc in moves:
+        new_row = row + dr
+        new_col = col + dc
+
+        if 0 <= new_row < 3 and 0 <= new_col < 3:
+
+            new_state = [r[:] for r in state]
+
+            # Swap blank with neighbouring tile
+            new_state[row][col], new_state[new_row][new_col] = \
+                new_state[new_row][new_col], new_state[row][col]
+
+            neighbours.append(new_state)
+
+    return neighbours
+
+
+# Display puzzle
+def display(state):
+    for row in state:
+        print(row)
+    print()
+
+
+# Hill Climbing algorithm
+def hill_climbing(start):
+
+    current = start
+
+    print("Initial State:")
+    display(current)
+    print("Objective Value:", objective(current))
+
+    while True:
+
+        # Check if goal is reached
+        if current == goal:
+            print("Goal State Reached!")
+            break
+
+        neighbours = get_neighbours(current)
+
+        # Select the best neighbouring state
+        best = current
+        best_value = objective(current)
+
+        for state in neighbours:
+            value = objective(state)
+
+            if value > best_value:
+                best = state
+                best_value = value
+
+        # If no better neighbour exists, stop
+        if best_value <= objective(current):
+            print("No better neighbouring state found.")
+            break
+
+        # Move to better state
+        current = best
+
+        print("New State:")
+        display(current)
+        print("Objective Value:", objective(current))
+
+    print("Final State:")
+    display(current)
+    print("Final Objective Value:", objective(current))
+
+
+# Initial state
+start = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 0, 8]
+]
+
+
+# Run the program
+hill_climbing(start)
