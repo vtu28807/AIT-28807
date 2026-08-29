@@ -1,0 +1,38 @@
+# Path lengths
+path1 = 30
+path2 = 70
+
+# Calculate inverse of each path length
+inv1 = 1 / path1
+inv2 = 1 / path2
+
+# Calculate total inverse
+total = inv1 + inv2
+
+# Calculate probabilities
+p1 = inv1 / total
+p2 = inv2 / total
+
+# Convert to percentages
+p1_percent = p1 * 100
+p2_percent = p2 * 100
+
+# Display probabilities
+print("Path 1 =", p1_percent, "%")
+print("Path 2 =", p2_percent, "%")
+
+# Find the minimum path
+if path1 < path2:
+    print("Most ants follow the minimum path.")
+    print("Path 1 is the minimum path.")
+    print("Path 1 has a", p1_percent, "% chance.")
+else:
+    print("Most ants follow the minimum path.")
+    print("Path 2 is the minimum path.")
+    print("Path 2 has a", p2_percent, "% chance.")
+output;
+Path 1 = 70.0 %
+Path 2 = 30.0 %
+Most ants follow the minimum path.
+Path 1 is the minimum path.
+Path 1 has a 70.0 % chance.
