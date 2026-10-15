@@ -1,0 +1,21 @@
+from kanren import Relation, facts, var, run
+
+# 1. Define relations for attributes and categories
+is_animal = Relation()
+has_color = Relation()
+
+# 2. Assert facts into the knowledge base
+facts(is_animal, "Frog", "Crocodile", "Canary", "Flamingo")
+facts(has_color, ("Frog", "Green"), ("Crocodile", "Green"), ("Canary", "Yellow"), ("Flamingo", "Pink"))
+
+# 3. Create a query variable
+x = var()
+
+# Query 1: Find all animals that are Green
+green_animals = run(0, x, is_animal(x), has_color(x, "Green"))
+print(f"Green animals: {green_animals}")
+
+# Query 2: Find the color of a Canary
+color = var()
+canary_color = run(1, color, has_color("Canary", color))
+print(f"A canary is: {canary_color[0]}")
