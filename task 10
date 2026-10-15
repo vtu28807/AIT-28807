@@ -1,0 +1,29 @@
+```python
+from kanren import Relation, facts, run, var, conde
+
+# 1. Define a relation
+parent = Relation()
+
+# 2. Add facts to the knowledge base
+facts(
+    parent,
+    ("Abe", "Homer"),
+    ("Homer", "Bart"),
+    ("Homer", "Lisa")
+)
+
+# 3. Define the grandparent rule
+def grandparent(x, z):
+    y = var()
+    return conde((parent(x, y), parent(y, z)))
+
+# 4. Query: Who is the grandparent of Bart?
+x = var()
+result = run(1, x, grandparent(x, "Bart"))
+
+# 5. Display the result
+if result:
+    print("The grandparent of Bart is:", result[0])
+else:
+    print("No grandparent found.")
+```
